@@ -1,0 +1,144 @@
+
+<meta charset="utf-8">
+<title>Memorizer heatmap</title>
+<style>
+
+@import url(style.css);
+
+.background {
+fill: #eee;
+}
+
+line {
+stroke: #fff;
+}
+
+text.active {
+fill: red;
+	  font-size: 120%;
+}
+
+rect.highlight {
+fill: none;
+stroke: red;
+		stroke-width: 2;
+}
+
+</style>
+<script src="d3.v3.js"></script>
+<script src="d3.parcoords.js"></script>
+<script src="science.v1.js"></script>
+<script src="tiny-queue.js"></script>
+<script src="reorder.js"></script>
+<script src="matrix.js"></script>
+<script src="https://d3js.org/d3.v4.js"></script>
+<script src="https://d3js.org/d3-scale-chromatic.v1.js"></script>
+<!--
+<header>
+<aside>October 6, 2013</aside>
+<a href="http://bost.ocks.org/mike/" rel="author">Mike Bostock</a>
+<a href="http://www.aviz.fr/~fekete" rel="author">Jean-Daniel Fekete</a>
+</header>
+
+<h1><i>Les Misérables</i> Co-occurrence</h1>
+-->
+
+<aside>
+<p>Order: <select id="order">
+<option value="name">by Name</option>
+<option value="count">by Frequency</option>
+<option value="group">by Cluster</option>
+<option value="leafOrder">by Leaf Order</option>
+<option value="leafOrderDist">by Leaf Order over Distance
+Matrix</option>
+<option value="barycenter">by Crossing Reduction</option>
+<option value="rcm">by Bandwidth Reduction (RCM)</option>
+<option value="spectral">Spectral</option>
+</select>
+
+<p>Distance: <select id="distance">
+<option value="manhattan"
+selected="true">Manhattan</option>
+<option value="euclidean">Euclidean</option>
+<option value="chebyshev">Chebyshev</option>
+<option value="hamming">Hamming</option>
+<option value="jaccard">Jaccard</option>
+<option value="braycurtis">Braycurtis</option>
+</select>
+<!--
+<p>This matrix diagram visualizes character
+co-occurrences in Victor Hugo’s <i><a
+href="http://en.wikipedia.org/wiki/Les_Misérables">Les
+Misérables</a></i>.
+
+<p>Each colored cell represents two characters
+that appeared in the same chapter; darker
+cells indicate characters that co-occurred
+more frequently.
+
+<p>Use the drop-down menu to reorder the
+matrix and explore the data.
+
+<p>Built with <a
+href="http://d3js.org/">d3.js</a>. Modified by
+<a
+href="http://www.aviz.fr/~fekete">Jean-Daniel
+Fekete</a> to explore reordering algorithms.
+-->
+</aside>
+
+<script>
+var margin = {top: 160, right: 0, bottom: 10,
+		left: 160},
+		width = 3096,
+		height = 3096;
+
+var x =
+d3.scale.ordinal().rangeBands([0,
+				width]),
+		z = d3.scale.linear().domain([0,
+						4]).clamp(true),
+		c = d3.scaleLinear()
+		  .range(["gray", "black"])
+		    .domain([1,10])
+
+		var svg =
+		d3.select("body").append("svg")
+		.attr("width", width +
+						margin.left +
+						margin.right)
+		.attr("height", height
+						+ margin.top +
+						margin.bottom)
+		//.style("margin-left",
+		//				margin.left +
+		//				"px")
+		.append("g")
+		.attr("transform",
+						"translate("
+						+
+						margin.left
+						+ "," +
+						margin.top +
+						")");
+
+		d3.json("dir.json",
+						loadJson);
+
+</script>
+
+<!--
+<footer>
+<aside>October
+6,
+		2013</aside>
+		<a
+		href="http://bost.ocks.org/mike/"
+		rel="author">Mike
+		Bostock</a>
+		<a
+		href="http://www.aviz.fr/~fekete"
+		rel="author">Jean-Daniel
+		Fekete</a>
+		</footer>
+	-->
